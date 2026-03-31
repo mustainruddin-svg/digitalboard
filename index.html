@@ -145,7 +145,7 @@
     /* Kegiatan Bulan Ini */
     .kegiatan-item {
         display: flex;
-        flex-direction: column; /* Mengubah susunan menjadi atas-bawah */
+        flex-direction: column; 
         gap: 5px;
         font-size: 15px;
         padding: 10px 0;
@@ -160,7 +160,7 @@
         font-weight: 600;
         color: #d93025;
         font-size: 13px;
-        margin-left: 15px; /* Sedikit menjorok ke dalam */
+        margin-left: 15px; 
     }
 
     /* Pesan Pendidikan */
@@ -402,4 +402,47 @@ function updateClockAndCountdown() {
 
             document.getElementById("nextPrayerName").innerHTML = `Menuju <b>${nextPrayer}</b>`;
             document.getElementById("countdown").innerHTML = 
-                `${h.toString().padStart(2, '0')}:${
+                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        } else {
+            document.getElementById("nextPrayerName").innerHTML = "Menunggu hari esok";
+            document.getElementById("countdown").innerHTML = "--:--:--";
+        }
+    }
+}
+
+// ==========================================
+// 5. ROTASI PESAN PENDIDIKAN
+// ==========================================
+const daftarPesan = [
+    `"Adab sebelum ilmu. Menanamkan akhlak mulia sejak dini adalah fondasi utama pendidikan di Ar-Rahmah."<br><br><b>- Fokus Karakter</b>`,
+    `"Mendidik anak adalah amal jariyah yang pahalanya tidak akan terputus. Mari bersinergi mencetak generasi Qur'ani."<br><br><b>- Pengingat Bersama</b>`,
+    `"Setiap anak adalah bintang. Tugas kita adalah membantu mereka menemukan cahayanya dengan iman dan pengetahuan."<br><br><b>- Semangat Belajar</b>`,
+    `"Doa orang tua adalah energi terbesar bagi kesuksesan anak. Jangan lelah mendoakan ananda tercinta di setiap sujud kita."<br><br><b>- Sentuhan Hati</b>`,
+    `"Pendidikan bukan sekadar mengisi pikiran, tetapi juga menyentuh hati dan membentuk karakter Islami yang tangguh."<br><br><b>- Visi Rabbani</b>`
+];
+
+let indexPesan = 0;
+function ubahPesan() {
+    const elemenPesan = document.getElementById("pesanPendidikan");
+    elemenPesan.style.opacity = 0;
+    setTimeout(() => {
+        elemenPesan.innerHTML = daftarPesan[indexPesan];
+        elemenPesan.style.opacity = 1;
+        indexPesan = (indexPesan + 1) % daftarPesan.length;
+    }, 500); 
+}
+
+// ==========================================
+// 6. INISIALISASI & AUTO-REFRESH
+// ==========================================
+fetchPrayerTimes();
+ubahPesan();
+setInterval(updateClockAndCountdown, 1000);
+setInterval(ubahPesan, 30000);
+
+// Auto Refresh Halaman setiap 1 Jam
+setInterval(() => { window.location.reload(); }, 3600000); 
+
+</script>
+</body>
+</html>
