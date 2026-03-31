@@ -174,7 +174,7 @@
 
         <div class="card">
             <h3>Pesan Pendidikan</h3>
-            <p class="hikmah-text">"Pendidikan adalah senjata paling ampuh yang bisa Anda gunakan untuk mengubah dunia." <br><br>- Mendidik generasi Rabbani yang unggul dan berakhlak mulia.</p>
+            <p class="hikmah-text" id="pesanPendidikan" style="transition: opacity 0.5s ease-in-out;">Memuat pesan...</p>
         </div>
     </div>
 </div>
@@ -318,7 +318,43 @@ setInterval(updateClockAndCountdown, 1000);
 setInterval(() => {
     window.location.reload();
 }, 3600000); 
+// 5. Rotasi Pesan Pendidikan
+const daftarPesan = [
+    `"Adab sebelum ilmu. Menanamkan akhlak mulia sejak dini adalah fondasi utama pendidikan di Ar-Rahmah."<br><br><b>- Fokus Karakter</b>`,
+    
+    `"Mendidik anak adalah amal jariyah yang pahalanya tidak akan terputus. Mari bersinergi mencetak generasi Qur'ani."<br><br><b>- Pengingat Bersama</b>`,
+    
+    `"Setiap anak adalah bintang. Tugas kita adalah membantu mereka menemukan cahayanya dengan iman dan pengetahuan."<br><br><b>- Semangat Belajar</b>`,
+    
+    `"Doa orang tua adalah energi terbesar bagi kesuksesan anak. Jangan lelah mendoakan ananda tercinta di setiap sujud kita."<br><br><b>- Sentuhan Hati</b>`,
+    
+    `"Pendidikan bukan sekadar mengisi pikiran, tetapi juga menyentuh hati dan membentuk karakter Islami yang tangguh."<br><br><b>- Visi Rabbani</b>`
+];
 
+let indexPesan = 0;
+
+function ubahPesan() {
+    const elemenPesan = document.getElementById("pesanPendidikan");
+    
+    // Efek memudar (fade out)
+    elemenPesan.style.opacity = 0;
+    
+    setTimeout(() => {
+        // Ganti teks
+        elemenPesan.innerHTML = daftarPesan[indexPesan];
+        // Efek muncul (fade in)
+        elemenPesan.style.opacity = 1;
+        
+        // Pindah ke pesan berikutnya
+        indexPesan = (indexPesan + 1) % daftarPesan.length;
+    }, 500); 
+}
+
+// Jalankan pertama kali
+ubahPesan();
+// Ganti pesan setiap 30 detik (30000 milidetik)
+setInterval(ubahPesan, 30000);
+    
 </script>
 </body>
 </html>
