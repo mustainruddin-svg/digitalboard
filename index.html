@@ -8,11 +8,13 @@
     body {
         margin: 0;
         font-family: 'Segoe UI', Arial, sans-serif;
-        background: linear-gradient(135deg, #004d99, #1e90ff); /* Warna biru profesional */
+        background: linear-gradient(135deg, #004d99, #1e90ff);
         color: white;
         padding: 20px;
-        overflow: hidden; /* Mencegah scrollbar muncul di layar TV */
+        overflow: hidden; 
     }
+    
+    /* Header & Logo */
     .header {
         display: flex;
         justify-content: space-between;
@@ -22,13 +24,13 @@
     }
     .header-left {
         display: flex;
-        align-items: center; /* Membuat logo dan teks sejajar di tengah */
-        gap: 20px; /* Jarak antara logo dan teks */
+        align-items: center;
+        gap: 20px;
     }
     .header-left .logo {
-        height: 70px; /* Ukuran tinggi logo, silakan disesuaikan (misal 60px - 80px) */
+        height: 70px;
         width: auto;
-        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); /* Efek bayangan tipis agar logo menonjol */
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
     }
     .header-text h1 {
         margin: 0;
@@ -36,11 +38,6 @@
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     }
     .header-text p {
-        margin: 5px 0 0 0;
-        font-size: 18px;
-        color: #e0f0ff;
-    }
-    .header-left p {
         margin: 5px 0 0 0;
         font-size: 18px;
         color: #e0f0ff;
@@ -59,17 +56,21 @@
         color: #ffd43b;
         font-weight: bold;
     }
+
+    /* Layout Utama */
     .main {
         display: flex;
         gap: 25px;
         margin-top: 25px;
     }
+    
+    /* Box Kiri (Slides) */
     .left {
         flex: 2;
         background: rgba(0, 0, 0, 0.3);
         border-radius: 20px;
         padding: 40px;
-        height: 65vh; /* Proporsional untuk layar TV */
+        height: 65vh; 
         background-size: cover;
         background-position: center;
         display: flex;
@@ -86,6 +87,8 @@
         font-size: 28px;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
+
+    /* Box Kanan (Cards) */
     .right {
         flex: 1;
         display: flex;
@@ -103,276 +106,76 @@
         margin-top: 0;
         color: #004d99;
         border-bottom: 2px solid #ffd43b;
-        padding-bottom: 10px;
-        font-size: 22px;
+        padding-bottom: 8px;
+        font-size: 20px;
+        margin-bottom: 15px;
     }
-    .prayer-time {
-        display: flex;
-        justify-content: space-between;
-        font-size: 18px;
-        padding: 5px 0;
-        border-bottom: 1px dashed #ccc;
-        font-weight: bold;
-    }
-    .prayer-time:last-child {
-        border-bottom: none;
-    }
+
+    /* Info Waktu Sholat Gabungan */
     #countdown {
-        font-size: 32px;
+        font-size: 36px;
         color: #d93025;
         text-align: center;
-        margin: 10px 0 0 0;
+        margin: 5px 0 0 0;
         font-weight: bold;
     }
+    .prayer-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        background: #f4f8fb;
+        padding: 12px;
+        border-radius: 10px;
+        margin-top: 15px;
+        color: #003366;
+        font-weight: bold;
+    }
+    .prayer-row span {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+    .prayer-row span b {
+        font-size: 11px;
+        color: #666;
+        text-transform: uppercase;
+    }
+
+    /* Kegiatan Bulan Ini */
+    .kegiatan-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        padding: 8px 0;
+        border-bottom: 1px dashed #ccc;
+        color: #222;
+    }
+    .kegiatan-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .kegiatan-tgl {
+        font-weight: bold;
+        color: #d93025;
+        font-size: 13px;
+        white-space: nowrap;
+        margin-left: 15px;
+    }
+
+    /* Pesan Pendidikan */
     .hikmah-text {
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.5;
         font-style: italic;
         color: #444;
         text-align: center;
+        margin: 0;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    /* Animasi Running Text yang halus */
+
+    /* Running Text */
     .running-container {
-        margin-top: 25px;
-        background: #ffd43b;
-        color: #003366;
-        padding: 15px;
-        border-radius: 15px;
-        font-weight: bold;
-        font-size: 20px;
-        overflow: hidden;
-        white-space: nowrap;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    }
-    .running-text {
-        display: inline-block;
-        padding-left: 100%;
-        animation: scrollText 20s linear infinite;
-    }
-    @keyframes scrollText {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-100%, 0); }
-    }
-</style>
-</head>
-<body>
-
-<div class="header">
-   <div class="header-left">
-        <img src="Logo%20SIT.png" alt="Logo SIT Ar-Rahmah" class="logo">
-        <div class="header-text">
-            <h1 id="title">Memuat Data...</h1>
-            <p id="subtitle">Menyiapkan informasi terbaik untuk Anda</p>
-        </div>
-    </div>
-    <div class="clock-container">
-        <div class="clock" id="clock">00:00:00</div>
-        <div class="date" id="date">Hari, Tanggal</div>
-    </div>
-</div>
-
-<div class="main">
-    <div class="left" id="slideBox">
-        <h2 id="slideTitle">Memuat visual...</h2>
-    </div>
-
-    <div class="right">
-        <div class="card">
-            <h3>Jadwal Sholat Makassar</h3>
-            <div id="prayerList">
-                <p>Mengambil data waktu sholat...</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>Menuju Sholat Berikutnya</h3>
-            <div id="nextPrayerName" style="text-align: center; font-size: 18px; color: #555;">-</div>
-            <h2 id="countdown">--:--:--</h2>
-        </div>
-
-        <div class="card">
-            <h3>Pesan Pendidikan</h3>
-            <p class="hikmah-text" id="pesanPendidikan" style="transition: opacity 0.5s ease-in-out;">Memuat pesan...</p>
-        </div>
-    </div>
-</div>
-
-<div class="running-container">
-    <div class="running-text" id="runningText">Memuat pengumuman...</div>
-</div>
-
-<script>
-// URL API Google Sheets Anda
-const apiURL = "https://script.google.com/macros/s/AKfycbxuGkecVS-iA62IuZNXyovpQgwxuGIdN56u1-ON8BF1I61eNxCqxsaX0DAgoU7mV-AW/exec?unit=SDIT";
-
-let slides = [];
-let currentSlide = 0;
-let prayerTimesToday = {};
-
-// 1. Ambil Data dari Google Sheets
-fetch(apiURL)
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("title").innerHTML = data.title || "SDIT Ar-Rahmah";
-        document.getElementById("subtitle").innerHTML = data.subtitle || "Membangun Generasi Rabbani";
-        
-        if(data.running_text && data.running_text.length > 0) {
-            document.getElementById("runningText").innerHTML = data.running_text.join(" &nbsp;&nbsp;&nbsp; 🟢 &nbsp;&nbsp;&nbsp; ");
-        }
-
-        slides = data.slides || [];
-        if(slides.length > 0) {
-            showSlide();
-            setInterval(nextSlide, 8000); // Ganti slide setiap 8 detik
-        }
-    })
-    .catch(err => console.error("Error GSheets:", err));
-
-// 2. Fungsi Rotasi Slide
-function showSlide() {
-    if (slides.length === 0) return;
-    let slide = slides[currentSlide];
-    const slideBox = document.getElementById("slideBox");
-    
-    // Efek transisi
-    slideBox.style.opacity = 0.5;
-    
-    setTimeout(() => {
-        document.getElementById("slideTitle").innerHTML = slide.title;
-        if (slide.image_url) {
-            // Memberikan overlay gelap agar teks tetap terbaca
-            slideBox.style.backgroundImage = `linear-gradient(to top, rgba(0,33,71,0.9) 0%, rgba(0,0,0,0) 50%), url('${slide.image_url}')`;
-        } else {
-            slideBox.style.backgroundImage = 'none';
-        }
-        slideBox.style.opacity = 1;
-    }, 400);
-}
-
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide();
-}
-
-// 3. Ambil Data Jadwal Sholat (Otomatis Makassar menggunakan API Aladhan)
-async function fetchPrayerTimes() {
-    try {
-        // Method 11 adalah standar Majelis Ulama Indonesia / Kemenag
-        const response = await fetch("https://api.aladhan.com/v1/timingsByCity?city=Makassar&country=Indonesia&method=11");
-        const data = await response.json();
-        const timings = data.data.timings;
-
-        // Simpan untuk keperluan hitung mundur
-        prayerTimesToday = {
-            "Subuh": timings.Fajr,
-            "Dzuhur": timings.Dhuhr,
-            "Ashar": timings.Asr,
-            "Maghrib": timings.Maghrib,
-            "Isya": timings.Isha
-        };
-
-        const prayerHtml = `
-            <div class="prayer-time"><span>Subuh</span><span>${timings.Fajr}</span></div>
-            <div class="prayer-time"><span>Dzuhur</span><span>${timings.Dhuhr}</span></div>
-            <div class="prayer-time"><span>Ashar</span><span>${timings.Asr}</span></div>
-            <div class="prayer-time"><span>Maghrib</span><span>${timings.Maghrib}</span></div>
-            <div class="prayer-time"><span>Isya</span><span>${timings.Isha}</span></div>
-        `;
-        document.getElementById("prayerList").innerHTML = prayerHtml;
-    } catch (error) {
-        console.error("Gagal mengambil jadwal sholat", error);
-        document.getElementById("prayerList").innerHTML = "<p style='color:#d93025; text-align:center;'>Gagal memuat jadwal. Memeriksa koneksi...</p>";
-    }
-}
-
-// 4. Jam & Hitung Mundur Sholat
-function updateClockAndCountdown() {
-    let now = new Date();
-    
-    // Update Jam & Tanggal Format Indonesia
-    const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById("clock").innerHTML = now.toLocaleTimeString("id-ID", { hour12: false });
-    document.getElementById("date").innerHTML = now.toLocaleDateString("id-ID", optionsDate);
-
-    // Hitung Mundur
-    if (Object.keys(prayerTimesToday).length > 0) {
-        let nextPrayer = null;
-        let nextPrayerTimeDate = null;
-
-        // Cari waktu sholat terdekat
-        for (const [name, timeStr] of Object.entries(prayerTimesToday)) {
-            let [hours, minutes] = timeStr.split(':');
-            let pTime = new Date();
-            pTime.setHours(hours, minutes, 0, 0);
-
-            if (pTime > now) {
-                nextPrayer = name;
-                nextPrayerTimeDate = pTime;
-                break; // Ketemu sholat berikutnya
-            }
-        }
-
-        if (nextPrayer) {
-            let diff = nextPrayerTimeDate - now;
-            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            let s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById("nextPrayerName").innerHTML = `Menuju <b>${nextPrayer}</b>`;
-            document.getElementById("countdown").innerHTML = 
-                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        } else {
-            document.getElementById("nextPrayerName").innerHTML = "Menunggu hari esok";
-            document.getElementById("countdown").innerHTML = "--:--:--";
-        }
-    }
-}
-
-// Inisialisasi
-fetchPrayerTimes();
-setInterval(updateClockAndCountdown, 1000);
-
-// Auto Refresh Halaman setiap 1 Jam (agar memori TV/Display tetap segar)
-setInterval(() => {
-    window.location.reload();
-}, 3600000); 
-// 5. Rotasi Pesan Pendidikan
-const daftarPesan = [
-    `"Adab sebelum ilmu. Menanamkan akhlak mulia sejak dini adalah fondasi utama pendidikan di Ar-Rahmah."<br><br><b>- Fokus Karakter</b>`,
-    
-    `"Mendidik anak adalah amal jariyah yang pahalanya tidak akan terputus. Mari bersinergi mencetak generasi Qur'ani."<br><br><b>- Pengingat Bersama</b>`,
-    
-    `"Setiap anak adalah bintang. Tugas kita adalah membantu mereka menemukan cahayanya dengan iman dan pengetahuan."<br><br><b>- Semangat Belajar</b>`,
-    
-    `"Doa orang tua adalah energi terbesar bagi kesuksesan anak. Jangan lelah mendoakan ananda tercinta di setiap sujud kita."<br><br><b>- Sentuhan Hati</b>`,
-    
-    `"Pendidikan bukan sekadar mengisi pikiran, tetapi juga menyentuh hati dan membentuk karakter Islami yang tangguh."<br><br><b>- Visi Rabbani</b>`
-];
-
-let indexPesan = 0;
-
-function ubahPesan() {
-    const elemenPesan = document.getElementById("pesanPendidikan");
-    
-    // Efek memudar (fade out)
-    elemenPesan.style.opacity = 0;
-    
-    setTimeout(() => {
-        // Ganti teks
-        elemenPesan.innerHTML = daftarPesan[indexPesan];
-        // Efek muncul (fade in)
-        elemenPesan.style.opacity = 1;
-        
-        // Pindah ke pesan berikutnya
-        indexPesan = (indexPesan + 1) % daftarPesan.length;
-    }, 500); 
-}
-
-// Jalankan pertama kali
-ubahPesan();
-// Ganti pesan setiap 30 detik (30000 milidetik)
-setInterval(ubahPesan, 30000);
-    
-</script>
-</body>
-</html>
