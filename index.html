@@ -145,9 +145,10 @@
     /* Kegiatan Bulan Ini */
     .kegiatan-item {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column; /* Mengubah susunan menjadi atas-bawah */
+        gap: 5px;
         font-size: 15px;
-        padding: 8px 0;
+        padding: 10px 0;
         border-bottom: 1px dashed #ccc;
         color: #222;
     }
@@ -156,11 +157,10 @@
         padding-bottom: 0;
     }
     .kegiatan-tgl {
-        font-weight: bold;
+        font-weight: 600;
         color: #d93025;
         font-size: 13px;
-        white-space: nowrap;
-        margin-left: 15px;
+        margin-left: 15px; /* Sedikit menjorok ke dalam */
     }
 
     /* Pesan Pendidikan */
@@ -179,3 +179,227 @@
 
     /* Running Text */
     .running-container {
+        margin-top: 25px;
+        background: #ffd43b;
+        color: #003366;
+        padding: 15px;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    .running-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: scrollText 20s linear infinite;
+    }
+    @keyframes scrollText {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(-100%, 0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <img src="Logo%20SIT.png" alt="Logo SIT Ar-Rahmah" class="logo" onerror="this.style.display='none'">
+        <div class="header-text">
+            <h1 id="title">Memuat Data...</h1>
+            <p id="subtitle">Menyiapkan informasi...</p>
+        </div>
+    </div>
+    <div class="clock-container">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date" id="date">Hari, Tanggal</div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="left" id="slideBox">
+        <h2 id="slideTitle">Memuat visual...</h2>
+    </div>
+
+    <div class="right">
+        
+        <div class="card">
+            <h3>Info Waktu Sholat</h3>
+            <div id="nextPrayerName" style="text-align: center; font-size: 16px; color: #555;">-</div>
+            <h2 id="countdown">--:--:--</h2>
+            
+            <div class="prayer-row" id="prayerList">
+                <span>Memuat...</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Kegiatan Bulan Ini</h3>
+            <div id="kegiatanContainer">
+                <div class="kegiatan-item"><span>Mengambil data jadwal...</span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Pesan Pendidikan</h3>
+            <p class="hikmah-text" id="pesanPendidikan" style="transition: opacity 0.5s ease-in-out;">Memuat pesan...</p>
+        </div>
+
+    </div>
+</div>
+
+<div class="running-container">
+    <div class="running-text" id="runningText">Memuat pengumuman...</div>
+</div>
+
+<script>
+// ==========================================
+// 1. KONFIGURASI API GOOGLE SHEETS
+// ==========================================
+const apiURL = "https://script.google.com/macros/s/AKfycbxuGkecVS-iA62IuZNXyovpQgwxuGIdN56u1-ON8BF1I61eNxCqxsaX0DAgoU7mV-AW/exec?unit=SDIT";
+
+let slides = [];
+let currentSlide = 0;
+let prayerTimesToday = {};
+
+fetch(apiURL)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("title").innerHTML = data.title || "SDIT Ar-Rahmah";
+        document.getElementById("subtitle").innerHTML = data.subtitle || "Membangun Generasi Rabbani";
+        
+        if(data.running_text && data.running_text.length > 0) {
+            document.getElementById("runningText").innerHTML = data.running_text.join(" &nbsp;&nbsp;&nbsp; 🟢 &nbsp;&nbsp;&nbsp; ");
+        }
+
+        const kegiatanContainer = document.getElementById("kegiatanContainer");
+        if(data.kegiatan && data.kegiatan.length > 0) {
+            let kegiatanHtml = "";
+            let maxItems = Math.min(data.kegiatan.length, 5); 
+            
+            for(let i = 0; i < maxItems; i++) {
+                let tglAsli = String(data.kegiatan[i].tanggal);
+                let tglFormatLengkap = tglAsli; 
+                
+                // Konversi tanggal format DD/MM/YYYY menjadi Hari, Tanggal Lengkap
+                if(tglAsli.includes('/')) {
+                    let parts = tglAsli.split('/');
+                    if(parts.length === 3) {
+                        let d = new Date(parts[2], parts[1] - 1, parts[0]);
+                        if(!isNaN(d)) {
+                            const opsiTanggal = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                            tglFormatLengkap = d.toLocaleDateString('id-ID', opsiTanggal);
+                        }
+                    }
+                }
+
+                kegiatanHtml += `
+                <div class="kegiatan-item">
+                    <span style="font-weight:bold;">${i+1}. ${data.kegiatan[i].kegiatan}</span>
+                    <span class="kegiatan-tgl">🗓️ ${tglFormatLengkap}</span>
+                </div>`;
+            }
+            kegiatanContainer.innerHTML = kegiatanHtml;
+        } else {
+            kegiatanContainer.innerHTML = `<div class="kegiatan-item"><span style="color:#666; text-align:center;">Belum ada agenda bulan ini.</span></div>`;
+        }
+
+        slides = data.slides || [];
+        if(slides.length > 0) {
+            showSlide();
+            setInterval(nextSlide, 8000); 
+        }
+    })
+    .catch(err => console.error("Error GSheets:", err));
+
+// ==========================================
+// 2. FUNGSI SLIDE GAMBAR
+// ==========================================
+function showSlide() {
+    if (slides.length === 0) return;
+    let slide = slides[currentSlide];
+    const slideBox = document.getElementById("slideBox");
+    
+    slideBox.style.opacity = 0.5;
+    setTimeout(() => {
+        document.getElementById("slideTitle").innerHTML = slide.title;
+        if (slide.image_url) {
+            slideBox.style.backgroundImage = `linear-gradient(to top, rgba(0,33,71,0.9) 0%, rgba(0,0,0,0) 50%), url('${slide.image_url}')`;
+        } else {
+            slideBox.style.backgroundImage = 'none';
+        }
+        slideBox.style.opacity = 1;
+    }, 400);
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide();
+}
+
+// ==========================================
+// 3. FUNGSI JADWAL SHOLAT (API ALADHAN)
+// ==========================================
+async function fetchPrayerTimes() {
+    try {
+        const response = await fetch("https://api.aladhan.com/v1/timingsByCity?city=Makassar&country=Indonesia&method=11");
+        const data = await response.json();
+        const timings = data.data.timings;
+
+        prayerTimesToday = {
+            "Subuh": timings.Fajr,
+            "Dzuhur": timings.Dhuhr,
+            "Ashar": timings.Asr,
+            "Maghrib": timings.Maghrib,
+            "Isya": timings.Isha
+        };
+
+        const prayerHtml = `
+            <span><b>Subuh</b> ${timings.Fajr}</span>
+            <span><b>Dzuhur</b> ${timings.Dhuhr}</span>
+            <span><b>Ashar</b> ${timings.Asr}</span>
+            <span><b>Maghrib</b> ${timings.Maghrib}</span>
+            <span><b>Isya</b> ${timings.Isha}</span>
+        `;
+        document.getElementById("prayerList").innerHTML = prayerHtml;
+    } catch (error) {
+        document.getElementById("prayerList").innerHTML = "<span>Gagal memuat jadwal.</span>";
+    }
+}
+
+// ==========================================
+// 4. FUNGSI JAM & HITUNG MUNDUR SHOLAT
+// ==========================================
+function updateClockAndCountdown() {
+    let now = new Date();
+    
+    const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById("clock").innerHTML = now.toLocaleTimeString("id-ID", { hour12: false });
+    document.getElementById("date").innerHTML = now.toLocaleDateString("id-ID", optionsDate);
+
+    if (Object.keys(prayerTimesToday).length > 0) {
+        let nextPrayer = null;
+        let nextPrayerTimeDate = null;
+
+        for (const [name, timeStr] of Object.entries(prayerTimesToday)) {
+            let [hours, minutes] = timeStr.split(':');
+            let pTime = new Date();
+            pTime.setHours(hours, minutes, 0, 0);
+
+            if (pTime > now) {
+                nextPrayer = name;
+                nextPrayerTimeDate = pTime;
+                break; 
+            }
+        }
+
+        if (nextPrayer) {
+            let diff = nextPrayerTimeDate - now;
+            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("nextPrayerName").innerHTML = `Menuju <b>${nextPrayer}</b>`;
+            document.getElementById("countdown").innerHTML = 
+                `${h.toString().padStart(2, '0')}:${
