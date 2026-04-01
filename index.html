@@ -10,7 +10,7 @@
         font-family: 'Segoe UI', Arial, sans-serif;
         background: linear-gradient(135deg, #004d99, #1e90ff);
         color: white;
-        padding: 20px;
+        padding: 10px 20px; /* Dipersempit agar tidak terpotong di TV */
         overflow: hidden; 
     }
     
@@ -20,7 +20,7 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 2px solid rgba(255,255,255,0.2);
-        padding-bottom: 15px;
+        padding-bottom: 10px;
     }
     .header-left {
         display: flex;
@@ -46,13 +46,13 @@
         text-align: right;
     }
     .clock {
-        font-size: 48px;
+        font-size: 44px;
         font-weight: bold;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         letter-spacing: 2px;
     }
     .date {
-        font-size: 18px;
+        font-size: 16px;
         color: #ffd43b;
         font-weight: bold;
     }
@@ -60,8 +60,8 @@
     /* Layout Utama */
     .main {
         display: flex;
-        gap: 25px;
-        margin-top: 25px;
+        gap: 20px; /* Jarak dipersempit */
+        margin-top: 15px; /* Ditarik ke atas */
     }
     
     /* Box Kiri (Slides) */
@@ -69,8 +69,8 @@
         flex: 2;
         background: rgba(0, 0, 0, 0.3);
         border-radius: 20px;
-        padding: 40px;
-        height: 65vh; 
+        padding: 30px; /* Ruang dalam dipersempit */
+        height: 55vh; /* Tinggi dikurangi agar tidak mentok bawah */
         background-size: cover;
         background-position: center;
         display: flex;
@@ -84,7 +84,7 @@
         padding: 15px 25px;
         border-radius: 10px;
         margin: 0;
-        font-size: 28px;
+        font-size: 26px;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
@@ -93,27 +93,27 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
     }
     .card {
         background: rgba(255, 255, 255, 0.95);
         color: #222;
-        border-radius: 20px;
-        padding: 20px;
+        border-radius: 15px;
+        padding: 15px;
         box-shadow: 0 8px 15px rgba(0,0,0,0.15);
     }
     .card h3 {
         margin-top: 0;
         color: #004d99;
         border-bottom: 2px solid #ffd43b;
-        padding-bottom: 8px;
-        font-size: 20px;
-        margin-bottom: 15px;
+        padding-bottom: 5px;
+        font-size: 18px;
+        margin-bottom: 10px;
     }
 
     /* Info Waktu Sholat Gabungan */
     #countdown {
-        font-size: 36px;
+        font-size: 32px;
         color: #d93025;
         text-align: center;
         margin: 5px 0 0 0;
@@ -124,9 +124,9 @@
         justify-content: space-between;
         font-size: 14px;
         background: #f4f8fb;
-        padding: 12px;
+        padding: 10px;
         border-radius: 10px;
-        margin-top: 15px;
+        margin-top: 10px;
         color: #003366;
         font-weight: bold;
     }
@@ -146,9 +146,9 @@
     .kegiatan-item {
         display: flex;
         flex-direction: column; 
-        gap: 5px;
-        font-size: 15px;
-        padding: 10px 0;
+        gap: 3px;
+        font-size: 14px;
+        padding: 8px 0;
         border-bottom: 1px dashed #ccc;
         color: #222;
     }
@@ -159,19 +159,19 @@
     .kegiatan-tgl {
         font-weight: 600;
         color: #d93025;
-        font-size: 13px;
+        font-size: 12px;
         margin-left: 15px; 
     }
 
     /* Pesan Pendidikan */
     .hikmah-text {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 1.5;
         font-style: italic;
         color: #444;
         text-align: center;
         margin: 0;
-        min-height: 80px;
+        min-height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -179,13 +179,13 @@
 
     /* Running Text */
     .running-container {
-        margin-top: 25px;
+        margin-top: 15px; /* Ditarik ke atas */
         background: #ffd43b;
         color: #003366;
-        padding: 15px;
+        padding: 10px 15px; /* Dipersempit ruangnya */
         border-radius: 15px;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 18px;
         overflow: hidden;
         white-space: nowrap;
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -223,10 +223,9 @@
     </div>
 
     <div class="right">
-        
         <div class="card">
             <h3>Info Waktu Sholat</h3>
-            <div id="nextPrayerName" style="text-align: center; font-size: 16px; color: #555;">-</div>
+            <div id="nextPrayerName" style="text-align: center; font-size: 15px; color: #555;">-</div>
             <h2 id="countdown">--:--:--</h2>
             
             <div class="prayer-row" id="prayerList">
@@ -245,7 +244,6 @@
             <h3>Pesan Pendidikan</h3>
             <p class="hikmah-text" id="pesanPendidikan" style="transition: opacity 0.5s ease-in-out;">Memuat pesan...</p>
         </div>
-
     </div>
 </div>
 
@@ -257,6 +255,7 @@
 // ==========================================
 // 1. KONFIGURASI API GOOGLE SHEETS
 // ==========================================
+// Ganti akhiran URL dengan ?unit=SD jika di Google Sheets unit Anda tertulis "SD"
 const apiURL = "https://script.google.com/macros/s/AKfycbxuGkecVS-iA62IuZNXyovpQgwxuGIdN56u1-ON8BF1I61eNxCqxsaX0DAgoU7mV-AW/exec?unit=SDIT";
 
 let slides = [];
@@ -443,6 +442,21 @@ setInterval(ubahPesan, 30000);
 // Auto Refresh Halaman setiap 1 Jam
 setInterval(() => { window.location.reload(); }, 3600000); 
 
+// ==========================================
+// 7. KLIK UNTUK FULLSCREEN DI TV
+// ==========================================
+document.body.addEventListener('click', function() {
+    let docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    } else if (docElm.mozRequestFullScreen) { /* Firefox */
+        docElm.mozRequestFullScreen();
+    } else if (docElm.webkitRequestFullScreen) { /* Chrome, Safari & Opera */
+        docElm.webkitRequestFullScreen();
+    } else if (docElm.msRequestFullscreen) { /* IE/Edge */
+        docElm.msRequestFullscreen();
+    }
+});
 </script>
 </body>
 </html>
